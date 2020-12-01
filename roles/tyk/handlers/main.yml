@@ -1,0 +1,7 @@
+---
+# handlers file for tyk
+- name: restart tyk-gateway
+  service: name=tyk-gateway state=restarted
+
+- name: apt update
+  apt:  update_cache=yes

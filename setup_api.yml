@@ -1,0 +1,26 @@
+---
+    - hosts: gateway
+      become: true
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
+        app_server_address: <<app_server_addrss>>
+
+      roles:
+        - role: define_api
+          vars:
+            api_identifier: <<api_id>>
+            apidefinitions_file: api_definitions/<<api_definition>>.json
+            api_auth_post_body_file: api_definitions/<<session_token>>.json
+            api_key: <<api_key>>  #when access is api key auth
+            #note: the api key that the incoming data should have is orgid+api_key
+
+        - role: define_api
+          vars:
+            api_identifier: <<api_id>>
+            apidefinitions_file: api_definitions/<<api_definition>>.json
+            api_auth_post_body_file: api_definitions/<<session_token>>.json
+            api_key: <<username>>  #when access if basic auth
+
+
+
+

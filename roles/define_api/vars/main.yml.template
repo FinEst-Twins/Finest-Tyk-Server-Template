@@ -1,0 +1,5 @@
+---
+# vars file for roles/define_api
+
+FVH_TYK_SECRET: <<tyk_secret>>
+tyk_url: <<xx.xx.xx:443>>

@@ -1,0 +1,35 @@
+{
+    "name": "<<api_name>>",
+    "api_id": "<<api_id>>",
+    "org_id": "FVH",
+    "use_basic_auth": true,
+    "version_data": {
+        "not_versioned": true,
+        "versions": {
+            "Default": {
+                "name": "1.0",
+                "expires": "3000-01-02 15:04",
+                "use_extended_paths": true,
+                "extended_paths": {
+                    "url_rewrites": [
+                      {
+                        "path": "/",
+                        "method": "POST",
+                        "match_pattern": "/api/v1",
+                        "rewrite_to": "http://{{ app_server_address }}:4000/api/v1"
+                      },
+                      {
+                        "path": "/",
+                        "method": "GET",
+                        "match_pattern": "/api/v1/observation([\\w?&=:.,-]+)",
+                        "rewrite_to": "http://{{ app_server_address }}:5000/observation$1&case=lvdt"
+                      }],
+                    "ignored": [],
+                    "white_list": [],
+                    "black_list": []
+                }
+            }
+        }
+    },
+    "enable_batch_request_support": true
+}

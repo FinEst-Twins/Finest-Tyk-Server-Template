@@ -1,0 +1,42 @@
+---
+# tasks file for tyk
+
+- name: Install Redis
+  shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+
+- name: Add tyk gateway repo signing key
+  apt_key:
+    url: https://packagecloud.io/tyk/tyk-gateway/gpgkey
+    state: present
+
+- name: Add tyk gateway repository
+  apt_repository:
+    repo: deb [arch=amd64] https://packagecloud.io/tyk/tyk-gateway/ubuntu/ bionic main
+    state: present
+
+- name: Update apt
+  apt: update_cache=yes
+
+- name: Update aptitude cache and install dependencies.
+  apt:
+    state: present
+    update-cache: yes
+    cache_valid_time: 3600
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - redis-server
+      - vim
+      - curl
+      - debian-archive-keyring
+      - gnupg
+      - apt-transport-https
+      - tyk-gateway
+
+- name: Set up gateway parameters
+  template: src=tyk.conf dest=/opt/tyk-gateway/tyk.conf mode=0644
+  notify:
+    - restart tyk-gateway
+
+- name: Start Gateway
+  service: name=tyk-gateway state=started enabled=yes

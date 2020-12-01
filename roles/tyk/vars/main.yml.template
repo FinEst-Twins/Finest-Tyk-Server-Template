@@ -1,0 +1,15 @@
+---
+# vars file for tyk
+
+tyk_gateway_port: <gateway port>
+tyk_secret: <32 character long secret>
+hash_keys: "true"
+tyk_log_level: <info,debug>
+gateway_domain_name: <<domain name>>
+server_cert_file: <<letsencrypt certificate file>>
+server_key_file: <<letsencrypt key file>>
+
+redishost: localhost
+redisport: 6379
+
+enable_tyk_analytics : "false"

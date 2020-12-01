@@ -1,0 +1,33 @@
+---
+# tasks file for roles/define_api
+
+- name: create api
+  template:
+    src: "{{ apidefinitions_file }}"
+    dest: /opt/tyk-gateway/apps/{{api_identifier}}.json
+    remote_src: no
+    mode: "0644"
+
+- name: restart tyk-gateway
+  service:
+    name: tyk-gateway
+    state: restarted
+
+- name: create authorization token
+  uri:
+    url: https://{{ tyk_url }}/tyk/keys/{{ api_key }}
+    headers:
+      x-tyk-authorization: "{{ FVH_TYK_SECRET }}"
+      Content-Type: application/json
+    method: POST
+    body: "{{ lookup('file', api_auth_post_body_file ) }}"
+    body_format: json
+    status_code: 200
+
+- name: hot reload
+  uri:
+    url: https://{{ tyk_url }}/tyk/reload/group
+    headers:
+      x-tyk-authorization: "{{ FVH_TYK_SECRET }}"
+    method: GET
+    status_code: 200

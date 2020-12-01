@@ -1,0 +1,5 @@
+[app]
+<ip address of app server>
+
+[gateway]
+<ip address of gateway server>

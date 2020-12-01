@@ -1,0 +1,24 @@
+{
+    "name": "<<api_name>>",
+    "api_id": "<<api_id>>",
+    "org_id": "Forum Virium Helsinki",
+    "auth": {
+        "auth_header_name": "<<auth_header_field>>"
+    },
+    "version_data": {
+        "not_versioned": true,
+        "versions": {
+            "Default": {
+                "name": "1.0",
+                "expires": "3000-01-02 15:04",
+                "use_extended_paths": false
+            }
+        }
+    },
+    "proxy": {
+        "listen_path": "<<relative_url>>",
+        "target_url": "http://{{ app_server_address }}:<<port_num>>",
+        "strip_listen_path": false
+    },
+    "enable_batch_request_support": true
+}

@@ -1,0 +1,34 @@
+---
+    - hosts: gateway
+      become: true
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
+
+      tasks:
+
+        - name: setup nginx
+          apt:
+            name: nginx
+            state: present
+
+        - name: link new conf
+          file:
+            path: /etc/nginx/sites-enabled/default
+            state: absent
+
+        - name: create new conf
+          copy:
+            src: /Users/sheena.puthanpurayil/ansible_tyk/reverse_proxy.conf
+            dest: /etc/nginx/sites-available/reverse_proxy.conf
+            remote_src: no
+
+        - name: link new conf
+          file:
+            src: /etc/nginx/sites-available/reverse_proxy.conf
+            path: /etc/nginx/sites-enabled/reverse_proxy.conf
+            owner: root
+            group: root
+            state: link
+
+        - name: Restart nginx
+          service: name=nginx state=restarted enabled=yes
